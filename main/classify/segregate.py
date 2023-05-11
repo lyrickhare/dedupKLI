@@ -45,7 +45,7 @@ def classify(text):
 def segregate(filepaths):
     classifiedDict = {"PAN":[],"DL":[],"Passport":[],"Aadhaar":[],"other":[]}
     for path in filepaths:
-        ocrTxt = OCR(path)
+        ocrTxt = OCR(path).lower()
         doctype = classify(ocrTxt)
         if(doctype=="other"):
             res = ocrTxt.split()
@@ -53,7 +53,7 @@ def segregate(filepaths):
                 check = 1
                 for j in range(3):
                     check = check and len(res[i+j]) == 4 and res[i+j].isdigit()
-                check = check and ("male" in res or "MALE" in res)
+                check = check and ("male" in res or "female" in res)
                 if(check):
                     doctype = "Aadhaar"
         classifiedDict[doctype].append(path)
