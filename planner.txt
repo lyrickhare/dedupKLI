@@ -1,0 +1,31 @@
+shri ganeshaya namah
+
+tasks
+- folder indexing ((filenames in folder))
+- retriving
+- pushing
+
+
+- classification
+	- cleaning
+	- ocr
+	- docMatch (fuzzy)
+python class
+
+
+- deDuplication
+	-blurCheck
+- maskingAadhaar
+- compression (compressed zip)
+
+
+raghav - main (sunday)
+lyric - classification class (friday) 
+nishkarsh -  dedup class, mask maybe, compress class (friday)
+
+
+5 (2A, 2P, 1D)
+clean (image)
+ocr (text)
+match(big 1D) (2D array)
+deDup (...) (1D array)
