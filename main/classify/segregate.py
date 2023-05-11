@@ -9,7 +9,7 @@ from fuzzywuzzy import fuzz
 
 def OCR(imgpath):
     img = cv2.imread(imgpath)
-    img = cv2.resize(img, None, fx=2, fy=2,interpolation=cv2.INTER_CUBIC)
+    # img = cv2.resize(img, None, fx=2, fy=2,interpolation=cv2.INTER_CUBIC)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
     text = pytesseract.image_to_string(img, lang = 'eng+hin')
@@ -31,7 +31,7 @@ def fuzzMatch( major, minor, errs = 4, threshold = 65 ):
         return 0
     
 
-idKeyWords = {"PAN":["income","permanent","account"],"DL":["driving","drive","dl no","transport"], "Passport": ["republic","passport"],"Aadhaar":["aadhaar"]}
+idKeyWords = {"PAN":["income","permanent","account"],"DL":["driving","drive","dl no","transport"], "Passport": ["republic","passport"],"Aadhaar":["aadhaar","आधार"]}
 
 
 def classify(text):
