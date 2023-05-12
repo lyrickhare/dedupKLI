@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[1]:
 
 
 import os
@@ -15,7 +15,13 @@ import bestquality
 import shutil
 
 
-# In[6]:
+# In[2]:
+
+
+dict_count = {'Total Proposals': 0, 'Images Processed': 0, 'Duplicate Images': 0, 'Documents recognized': 0, 'Images Saved':0, 'Other Files':0}
+
+
+# In[4]:
 
 
 def main(path, path1):
@@ -23,7 +29,7 @@ def main(path, path1):
     os.mkdir(path1)
 
     proposal_list = os.listdir(path)
-
+    dict_count['Total Proposals'] = len(proposal_list)
     for i in proposal_list:
         path_final = path1 + '/' + i
         os.mkdir(Path(path_final))
@@ -49,14 +55,23 @@ def main(path, path1):
         img_file = list(Path(folder).rglob("*"))
         img_file1 = [str(i) for i in img_file]
         dict1 = segregate.segregate(img_file1)
+        dict_count['Images Processed']+=sum(map(len, dict1.values()))
         dict2 = bestquality.bestquality(dict1)
         dict2 = {i:j for i,j in dict2.items() if j != ['']}
+        dict_count['Images Saved']+=sum(map(len, dict2.values()))
+        for i in dict2:
+            if(i=='other'):
+                dict_count['Other Files']+=len(dict2['other'])
         for j in os.listdir(path1+'/'+list_new[pos]):
             for k in dict2:
                 if(j==k):
                     shutil.copy(Path(str(dict2[k]).replace("[","").replace("]","").replace("'","")),Path(path1+'/'+list_new[pos]+'/'+j))
         pos = pos + 1
     [os.removedirs(p) for p in Path(path1).glob('**/*') if p.is_dir() and len(list(p.iterdir())) == 0]
+    dict_count['Duplicate Images'] = dict_count['Images Processed'] - dict_count['Images Saved']
+    dict_count['Documents recognized'] = dict_count['Images Saved'] - dict_count['Other Files']
+    for key, value in dict_count.items():
+        print(key, ' : ', value)
 
 
 # In[ ]:
