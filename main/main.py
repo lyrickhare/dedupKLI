@@ -8,9 +8,9 @@ import os
 import pathlib
 from pathlib import Path
 import sys  
-sys.path.insert(0, '../main/classify')
+# sys.path.insert(0, '../main/classify')
 import segregate
-sys.path.insert(0,'../main/dedup')
+# sys.path.insert(0,'../main/dedup')
 import bestquality
 import shutil
 
