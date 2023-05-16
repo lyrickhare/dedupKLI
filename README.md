@@ -10,3 +10,19 @@
 - This folder will have all the folders that are in proposal and these children folders will contain indexed folders for documents
 - The matrix_ parameters will be there in output
 ![image](https://github.com/lyrickhare/dedupKLI/assets/80460792/b536ecdf-81b7-4a1b-91b8-4a68fd8aded8)
+
+
+# Dependencies 
+- os
+- pathlib
+- sys
+- shutil
+- cv2 (opencv)
+- numpy
+- ftfy
+- pytesseract
+- tesseract (software)
+- PIL
+- regex
+- fuzzywuzzy
+- Levenshtein
