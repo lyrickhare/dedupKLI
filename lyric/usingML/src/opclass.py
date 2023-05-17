@@ -71,8 +71,8 @@ class Classifier:
             self.check_faulty_image(image)
             if self.FAULTY_IMAGE==True:
                 #sys.exit("Faulty image found, cannot process.")
-                self.pred_class='others'
-                return self.pred_class.upper()
+                self.pred_class='other'
+                return self.pred_class
             
             else:
                 self.img=load_img(image)
