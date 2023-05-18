@@ -22,22 +22,28 @@ import shutil
 
 # In[4]:
 
+#Building Main Function
 
-def main(path, path1):
+def main(src_path, dest_path):
+    #Dictionary to store count:
     dict_count = {'Total Proposals': 0, 'Images Processed': 0, 'Duplicate Images': 0, 'Documents recognized': 0, 'Images Saved':0, 'Other Files':0}
-    os.mkdir(path1)
-
-    proposal_list = os.listdir(path)
+    #Creating an empty folder to store indexed images of each proposal:
+    os.mkdir(dest_path)
+    #Fetching proposal ids:
+    proposal_list = os.listdir(src_path)
+    #Getting total no. of proposals:
     dict_count['Total Proposals'] = len(proposal_list)
+    #Creating an empty folder for each proposal id in the destination path:
     for i in proposal_list:
-        path_final = path1 + '/' + i
+        path_final = dest_path + '/' + i
         os.mkdir(Path(path_final))
-    for i in os.listdir(path1):
-        path_Aadhaar = path1+'/'+i+'/Aadhaar'
-        path_PAN = path1+'/'+i+'/PAN'
-        path_other = path1+'/'+i+'/other'
-        path_DL = path1+'/'+i+'/DL'
-        path_Passport = path1+'/'+i+'/Passport'
+    #Creating folder for each document:
+    for i in os.listdir(dest_path):
+        path_Aadhaar = dest_path+'/'+i+'/Aadhaar'
+        path_PAN = dest_path+'/'+i+'/PAN'
+        path_other = dest_path+'/'+i+'/other'
+        path_DL = dest_path+'/'+i+'/DL'
+        path_Passport = dest_path+'/'+i+'/Passport'
         os.mkdir(path_Aadhaar)
         os.mkdir(path_PAN)
         os.mkdir(path_other)
@@ -45,33 +51,36 @@ def main(path, path1):
         os.mkdir(path_Passport)
     myFolder = list()
     pos = 0
-    list_new = os.listdir(path1)
-    for dirname in os.listdir(path):
-        f = os.path.join(path,dirname)
+    list_new = os.listdir(dest_path) #Fetches names of proposal ids created in destination folder
+    #Getting the path of each proposal id folder:
+    for dirname in os.listdir(src_path):
+        f = os.path.join(src_path,dirname)
         if os.path.isdir(f):
             myFolder.append(f)
+    #Fetching path of images and passing it to the functions segregate and bestquality for classification & deduplication:
     for folder in myFolder:
         img_file = list(Path(folder).rglob("*"))
         img_file1 = [str(i) for i in img_file]
-        dict1 = segregate.segregate(img_file1)
-        dict_count['Images Processed']+=sum(map(len, dict1.values()))
-        dict2 = bestquality.bestquality(dict1)
-        dict2 = {i:j for i,j in dict2.items() if j != ['']}
-        print(dict2)
-        dict_count['Images Saved']+=sum(map(len, dict2.values()))
-        for i in dict2:
+        segregated_dict = segregate.segregate(img_file1) #Getting the classified dictionary
+        dict_count['Images Processed']+=sum(map(len, segregated_dict.values())) #Counting total no. of images
+        final_dedup_dict = bestquality.bestquality(segregated_dict) #Getting the de-duplicated dictionary
+        final_dedup_dict = {i:j for i,j in final_dedup_dict.items() if j != ['']} #Removing null items
+        print(final_dedup_dict)
+        dict_count['Images Saved']+=sum(map(len, final_dedup_dict.values())) #Couting no. of images that are saved
+        for i in final_dedup_dict:
             if(i=='other'):
-                dict_count['Other Files']+=len(dict2['other'])
-        for j in os.listdir(path1+'/'+list_new[pos]):
-            for k in dict2:
+                dict_count['Other Files']+=len(final_dedup_dict['other'])   #Counting no. of other images
+        #Copying images from source path to the final indexed folder for each proposal id:
+        for j in os.listdir(dest_path+'/'+list_new[pos]):
+            for k in final_dedup_dict:
                 if(j!='other' and k!='other' and j==k):
-                    shutil.copy(Path(str(dict2[k]).replace("[","").replace("]","").replace("'","")),Path(path1+'/'+list_new[pos]+'/'+j))
-                elif(j==k and k=='other' and dict2['other']!=[]):
-                    other_list = str(dict2['other']).split(',')
+                    shutil.copy(Path(str(final_dedup_dict[k]).replace("[","").replace("]","").replace("'","")),Path(dest_path+'/'+list_new[pos]+'/'+j))
+                elif(j==k and k=='other' and final_dedup_dict['other']!=[]):
+                    other_list = str(final_dedup_dict['other']).split(',')
                     for l in other_list:
-                        shutil.copy(Path(str(l).replace("[","").replace("]","").replace("'","").replace(" ","")),Path(path1+'/'+list_new[pos]+'/'+j))
+                        shutil.copy(Path(str(l).replace("[","").replace("]","").replace("'","").replace(" ","")),Path(dest_path+'/'+list_new[pos]+'/'+j))
         pos = pos + 1
-    [os.removedirs(p) for p in Path(path1).glob('**/*') if p.is_dir() and len(list(p.iterdir())) == 0]
+    [os.removedirs(p) for p in Path(dest_path).glob('**/*') if p.is_dir() and len(list(p.iterdir())) == 0] #Deleting indexed folders that are empty
     dict_count['Duplicate Images'] = dict_count['Images Processed'] - dict_count['Images Saved']
     dict_count['Documents recognized'] = dict_count['Images Saved'] - dict_count['Other Files']
     for key, value in dict_count.items():
