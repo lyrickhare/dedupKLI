@@ -6,6 +6,7 @@ from keras import optimizers
 image_size=150
 vgg_conv = VGG16(weights='imagenet', include_top=False, input_shape=(image_size, image_size, 3))
 # Freeze the layers except the last 4 layers
+# froze the 4 end layers which were used to classify images, now these layers were basically the fully connected neural network layers of the vgg16 model used to classify images right after the flattened image was sent to this network
 for layer in vgg_conv.layers[:-4]:
     layer.trainable = False
  
@@ -26,7 +27,7 @@ model.add(vgg_conv)
 # Add new layers
 model.add(layers.Flatten())
 model.add(layers.Dense(1024, activation='relu'))
-model.add(layers.Dropout(0.5))
+model.add(layers.Dropout(0.5)) # I had a limited dataset I had to include dropout in the fully connected network to prevent overfitting on the data.
 model.add(layers.Dense(3, activation='softmax'))
  
 # Show a summary of the model. Check the number of trainable parameters
@@ -36,7 +37,7 @@ train_batchsize = 16
 val_batchsize = 16
 train_dir='train'
 validation_dir='validation'
-
+#ImageDataGenerator module from keras and added variations to the dataset like tilting or selective blurring and increased my dataset size for each class.
 train_datagen = ImageDataGenerator(
       rescale=1./255,
       rotation_range=20,
