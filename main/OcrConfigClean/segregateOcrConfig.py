@@ -73,8 +73,8 @@ def classify(text):
 def segregate(filepaths):
     """
     - Image Cleaning and Realignment is performed
-    - Three configurations of pytesseract are used for OCR
-    - config = 3,4,6 are used, where:
+    - Four configurations of pytesseract are used for OCR
+    - config = 3,4,6,12 are used, where:
         - 3    Fully automatic page segmentation, but no OSD. (Default)
         - 4    Assume a single column of text of variable sizes.
         - 6    Assume a single uniform block of text.
