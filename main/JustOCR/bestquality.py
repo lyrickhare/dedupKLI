@@ -45,7 +45,7 @@ def bestquality(classifiedDict):
     as in example 'rand1.jpg' was the copy of 'rand.jpg'
     so it was deleted;
     while 'img.jpg' was a different image
-    so it was kept irrespective of it's output
+    so it was kept irrespective of it's clarity/quality
 
 
     """
