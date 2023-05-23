@@ -1,10 +1,10 @@
 from keras.models import load_model
 from keras_preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import cv2
-# import os
-# import sys
+import os
+import sys
 import numpy as np
-# from keras_preprocessing.image import img_to_array
+from keras_preprocessing.image import img_to_array
 
 
 class Classifier:
