@@ -35,6 +35,6 @@ def segregate(filepaths):
     """
     classifiedDict = {"PAN":[],"DL":[],"Passport":[],"Aadhaar":[],"other":[]}
     doctype = modelObj.get_prediction(filepaths)
-    # classifiedDict[doctype].append(filepaths)
-    # print("addedInClassifieddict")
-    return doctype
+    classifiedDict[doctype].append(filepaths)
+    print("addedInClassifieddict")
+    return classifiedDict

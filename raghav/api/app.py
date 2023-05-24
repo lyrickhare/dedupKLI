@@ -15,8 +15,8 @@ async def upload(files:list[UploadFile] = File(...)):
     for file in files:
         image_bytes = await file.read() 
         encoded_img = np.frombuffer(image_bytes,dtype=np.uint8)
-        pred = segregateNN.segregate(encoded_img)
-        pred_list.append(pred)
+        dict_seg = segregateNN.segregate(encoded_img)
+        
     return(pred_list)
 
     
