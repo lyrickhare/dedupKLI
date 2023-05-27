@@ -1,0 +1,13 @@
+face-recognition
+fastapi
+ftfy
+fuzzywuzzy
+numpy
+opencv-python
+Pillow
+pytesseract
+python-multipart
+regex
+scipy
+uvicorn
+
