@@ -1,0 +1,7 @@
+- For dlib error in face_recognition: Github repo for dlib: https://github.com/Murtaza-Saeed/dlib
+- Clone the repo
+- Run powershell in that folder and pip install <file_name>.whl for your respective python version
+- Now run pip install face_recognition
+
+- For tesseract error: Add RUN apt-get install -y tesseract-ocr to the dockerfile
+- Set tesseract path to /usr/bin/tesseract
