@@ -49,7 +49,7 @@ def fuzzMatch( major, minor, errs = 4, threshold = 65 ):
     while s is None and errs_ <= errs:
         errs_ += 1
         s = regex.search(f"({minor}){{e<={errs_}}}", major)
-    if(fuzz.token_set_ratio(minor,s)>threshold):
+    if(fuzz.token_set_ratio(minor,s.group())>threshold):
         return 1
     else:
         return 0
