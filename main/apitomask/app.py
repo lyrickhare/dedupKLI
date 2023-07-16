@@ -20,7 +20,7 @@ async def upldImg(file:UploadFile=File(...)):
         f.write(contents)
     img_path = list(Path(IMAGEDIR).rglob("*")) # Input Images
     img_path_str = [str(i) for i in img_path]
-    pytesseract.pytesseract.tesseract_cmd = "../Tesseract-OCR/tesseract.exe"
+    pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
 
     obj = mask.Aadhaar_Card()
     aadhaar_list = (obj.extract(img_path_str[0]))
